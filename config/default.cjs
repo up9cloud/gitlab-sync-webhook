@@ -1,5 +1,5 @@
 module.exports = {
-  token: '', // the gitlab token, see 
+  token: '', // the gitlab token, see https://docs.gitlab.com/ee/api/#personalprojectgroup-access-tokens
   // universal hooks for every repository
   hooks: [
     // see https://docs.gitlab.com/ee/api/projects.html#add-project-hook, e.q.
