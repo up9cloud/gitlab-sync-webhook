@@ -17,7 +17,7 @@ async function removeHooksFromProject(projectId) {
   let jobs = []
   for (const hook of hooks) {
     const url = '/projects/:id/hooks/:hook_id'.replace(':id', projectId).replace(':hook_id', hook.id)
-    console.log('remove hook: %o', url)
+    console.log('remove webhook for %o', url)
     jobs.push(fetch(url, {
       method: 'DELETE',
     }))
@@ -28,7 +28,7 @@ async function addHooksToProject(projectId, hooks = []) {
   let jobs = []
   for (const hook of hooks) {
     const url = '/projects/:id/hooks'.replace(':id', projectId)
-    console.log('add hook: %o', url)
+    console.log('add webhook for %o', url)
     jobs.push(fetch(url, {
       method: 'POST',
       body: JSON.stringify(hook)
@@ -43,10 +43,13 @@ async function syncHooksToProject(projectId, hooks) {
   // console.log(r2)
 }
 
-const mainGroupName = process.argv[2]
+const mainGroupName = process.argv[2] ?? config.get('groupName')
 const groups = await fetch('/groups', {
   "method": "GET"
 })
+if (!Array.isArray(groups)) {
+  console.error(groups)
+}
 const mainGroup = groups.find(row => row.full_path === mainGroupName)
 const mainGroupId = mainGroup.id
 
